@@ -41,7 +41,7 @@ e = open(config.ics_filename, 'rb')
 ecal = Calendar.from_ical(e.read())
 for component in ecal.walk():
     if component.name == "VEVENT":
-        print('Adding event: ' + component.get("SUMMARY"))
+        print('Adding event: ' + component.get("SUMMARY") + ' at ' + component.decoded("dtstart").strftime("%B %d, %Y"))
         new_event = calendar.new_event()
         new_event.subject = component.get("SUMMARY")
         new_event.location = component.get("location")
