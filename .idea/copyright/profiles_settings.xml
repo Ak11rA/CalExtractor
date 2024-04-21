@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <settings default="Loopback.ORG">
+    <module2copyright>
+      <element module="All" copyright="Loopback.ORG" />
+    </module2copyright>
+  </settings>
+</component>
