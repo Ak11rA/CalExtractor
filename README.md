@@ -19,8 +19,8 @@ After that, you could send this file per EMail with a command like:
 `PS C:\Users\XXX> send-mailmessage -to <EMailAdresse> -subject <Betreff> -from <XXX-Mail-Addresse> -smtpserver mailrelay.xxx.de`
 You can use Windows Task Planner to execute these Powershell command periodically.
 
-![](/Users/akira/Downloads/Aufgabenplanung 1.png)
-![](/Users/akira/Downloads/Aufgabenplanung 2.png)
+![Aufgabenplanung1.png](Images%2FAufgabenplanung1.png)
+![Aufgabenplanung2.png](Images%2FAufgabenplanung2.png)
 
 ## How to save the .ics file from email to a file automatically
 
@@ -28,7 +28,7 @@ You can use Windows Task Planner to execute these Powershell command periodicall
 
 You can use Microsoft Power Automate to process and delete a specific incoming email and save the .ics file attached to the email to a folder in OneDrive, from where the Python scripts can process it.
 
-![](/Users/akira/Downloads/PowerAutomate.png)
+![PowerAutomate.png](Images%2FPowerAutomate.png)
 
 For each attachment in the email, you have to decode the attachment using a decode function:
 
