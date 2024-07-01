@@ -4,6 +4,39 @@ Some scripts to manager calendar synchronization between different calendar plat
 
 - config.py         # General configuration for all scripts (access tokens, calendar names etc.)
 - SyncFileTo365.py  # This script reads an .ics calendar file and writes all entries to a Office 365 calendar defined in config.py. All content of this calendar is deleted first.
+- SyncFileToFcal.py # This script reads an .ics calendar file and writes all entries to a Google calendar defined in config.py. All content of this calendar is deleted first.
+
+## Read an ICS file and sync your calendar
+
+### sync to Office 365
+
+#### configure config.py and run SynFileTo365.py 
+
+The ics file should be in a OneDrive folder accessible to the python script.
+
+Configure these values in config.py:
+
+`o365_credentials`
+`o365_tenant_id`
+`o365_calendar_name`
+`o365_resource`
+
+Office 365 has to be configured to access the API.
+
+See: 
+https://github.com/O365/python-o365#authentication
+https://learn.microsoft.com/en-us/graph/tutorials/python?tabs=aad
+
+### sync to Google Calendar
+
+Basic configuration of the Google Calendar API:
+https://developers.google.com/calendar/api/quickstart/python
+
+### configure config.py and run SyncFileToGCal.py
+
+The ics file should be in a Google Drive folder accessible to the python script.
+
+Configure: `gcal_calendar_id` to the calendar ID of the Google Calendar you want to sync to. You can find the ID in the settings of the calendar.
 
 ## How to generate an ICS file 
 
@@ -33,3 +66,23 @@ You can use Microsoft Power Automate to process and delete a specific incoming e
 For each attachment in the email, you have to decode the attachment using a decode function:
 
 `decodeBase64(outputs('Anlage_abrufen_(V2)')?['body/contentBytes'])`
+
+### to Google Drive via Google Apps Script
+
+Create an Google Apps Script which processes your InBox and saves the attachment to a Google Drive folder.
+Details: https://medium.com/@pablopallocchi/automatically-save-email-attachments-to-google-drive-using-google-apps-script-7a751a5d3ac9
+
+1. Create a new Google Apps Script project within your Google Drive: Create a new Google Apps Script project by clicking on “New” > “More” > “Google Apps Script.”
+2. Replace the default code with the script saveNewAttachmentsToDrive.js
+3. Make sure to replace "XXX" with the actual ID of the destination folder in your Google Drive. To get the folder ID, open the folder in Google Drive, and the ID can be found in the URL after "folders/"
+4. Modify the searchQuery variable to match the criteria for emails you want to process. The example query looks for emails with subject OWACalSync with attachments, but you can adjust it based on your requirements 
+5. Save the script and give it a name
+6. Run the script manually the first time to grant permissions for accessing Gmail and Drive
+7. Set up a trigger to run the script periodically (e.g., every hour)
+   8. Open Script Editor: In your Google Apps Script project, click on the menu “Extensions”, “Apps Script.” 
+   9. Create a Trigger: In the Script Editor, click on the clock icon (Triggers) located on the left sidebar 
+   10. Add New Trigger: Click on the “+ Add Trigger” button in the bottom right corner
+   11. Configure Trigger: In the trigger configuration window 
+       12. Select event source: Choose “Time-driven.”
+       13. Select type of time based trigger: Select your preferred interval (e.g., every hour, every day, every week)
+   14. Save Trigger: Once you’ve configured the trigger settings, click the “Save” button. The trigger will now be active and will automatically execute your script at the specified intervals.
