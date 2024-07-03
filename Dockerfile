@@ -6,7 +6,9 @@ WORKDIR /app
 COPY Requirements /app/
 RUN pip install -r Requirements
 
-COPY SyncFileTo365.py SyncFileToGcal.py main.py /app/
-COPY config.py-EXAMPLE /config/
+COPY SyncFileToCloud /app/
+COPY SyncFileToCloud/. /app/SyncFileToCloud/
+COPY main.py /app/
+COPY README.md config.py-EXAMPLE /config/
 
 ENTRYPOINT python3 main.py

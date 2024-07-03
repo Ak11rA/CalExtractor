@@ -7,6 +7,7 @@ import SyncFileToCloud.sync2O365
 import config
 from icalendar import Calendar
 import datetime
+import urllib.request
 
 def ical_walk(filename):
     # init the calendar file
@@ -63,6 +64,10 @@ if config.gcal_calendar_id != 'xxx@group.calendar.google.com':
         SyncFileToCloud.sync2GCal.delete_events(config.gcal_calendar_id, period_begin, period_end)
     else:
         print("Skipping cleanup of GCal calendar.")
+
+# Download the ICS file
+print('Downloading ICS file from ' + config.ics_url + ' to ' + config.ics_filename)
+urllib.request.urlretrieve(config.ics_url, config.ics_filename)
 
 # Process the ICS file
 ical_walk(config.ics_filename)
