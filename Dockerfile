@@ -9,6 +9,5 @@ RUN pip install -r Requirements
 COPY SyncFileToCloud /app/
 COPY SyncFileToCloud/. /app/SyncFileToCloud/
 COPY main.py /app/
-COPY README.md config.py-EXAMPLE /config/
 
 ENTRYPOINT python3 main.py

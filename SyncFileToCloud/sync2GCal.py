@@ -69,18 +69,24 @@ def add_event(
         summary,
         location,
         start,
-        end
+        end,
+        timezone
 ):
     SCOPES = ["https://www.googleapis.com/auth/calendar"]
     creds = Credentials.from_authorized_user_file("Googletoken.json", SCOPES)
+    # Fix Google / Microsoft time zone ideas
+    #if timezone == ("CEST"):
+    #    timezone = "Europe/Berlin"
     gc_event = {
         'summary': summary,
         'location': location,
         'start': {
-            'dateTime': start.isoformat()
+            'dateTime': start.isoformat(),
+            'timeZone': timezone
         },
         'end': {
-            'dateTime': end.isoformat()
+            'dateTime': end.isoformat(),
+            'timeZone': timezone
         }
     }
     try:

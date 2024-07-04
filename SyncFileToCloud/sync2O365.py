@@ -2,6 +2,7 @@
 
 import config
 from O365 import Account
+from zoneinfo import ZoneInfo
 
 def connect():
     # init the O365 connection
@@ -31,13 +32,29 @@ def add_event(
         summary,
         location,
         start,
-        end):
+        end,
+        timezone):
+
+    try:
+        tz_info = ZoneInfo(timezone)
+        starttime_tz = start.replace(tzinfo=tz_info)
+        endtime_tz = end.replace(tzinfo=tz_info)
+    except TypeError:
+        print("Error: Timezone not found: (" + timezone + "). Using default timezone.")
+        #print(" Event started at: " + start.strftime("%m.%d.%Y, %H:%M:%S"))
+        #print(" Event started at: " + end.strftime("%m.%d.%Y, %H:%M:%S"))
+
     account = Account(config.o365_credentials, auth_flow_type='credentials', tenant_id=config.o365_tenant_id)
     schedule = account.schedule(resource=config.o365_resource)
     calendar = schedule.get_calendar(calendar_name=config.o365_calendar_name)
-    new_event = calendar.new_event()
-    new_event.subject = summary
-    new_event.location = location
-    new_event.start = start
-    new_event.end = end
-    new_event.save()
+
+    try:
+        new_event = calendar.new_event()
+        new_event.subject = summary
+        new_event.location = location
+        new_event.start = starttime_tz
+        new_event.end = endtime_tz
+        new_event.tz = timezone
+        new_event.save()
+    except:
+        print("Error: Could not add event to O365 calendar.")
