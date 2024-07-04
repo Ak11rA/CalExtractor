@@ -3,25 +3,29 @@
 Some scripts to manager calendar synchronization between different calendar platforms.
 
 - config.py         # General configuration for all scripts (access tokens, calendar names etc.)
-- SyncFileTo365.py  # This script reads an .ics calendar file and writes all entries to a Office 365 calendar defined in config.py. All content of this calendar is deleted first.
-- SyncFileToFcal.py # This script reads an .ics calendar file and writes all entries to a Google calendar defined in config.py. All content of this calendar is deleted first.
+- main.py         # This script downloads an .ics calendar file and writes all entries to a Office 365 and/or Google calendar. All content of this calendar is deleted first.
+
+There is also a docker image available: https://hub.docker.com/repository/docker/ak1ras/calextractor/general
 
 ## Read an ICS file and sync your calendar
+
+#### configure ics file location
+
+`# ical file configuration
+cs_filename = 'Cal_File.ics'                # internal name of the ical file to download and sync
+ics_url = 'https://drive.google.com/uc?export=download&id=XXX'  # URL to download the ical file from`
 
 ### sync to Office 365
 
 #### configure config.py and run SynFileTo365.py 
 
-The ics file should be in a OneDrive folder accessible to the python script.
-
-Configure these values in config.py:
-
-`o365_credentials`
-`o365_tenant_id`
-`o365_calendar_name`
-`o365_resource`
-
 Office 365 has to be configured to access the API.
+
+`# O365 connection credentials
+o365_credentials = ('xxx', 'yyy')
+o365_tenant_id = 'zzz'
+o365_calendar_name='My Synced Cal'           # O365 calendar to sync to
+o365_resource='address@email.org'            # O365 user name`
 
 See: 
 https://github.com/O365/python-o365#authentication
