@@ -42,6 +42,10 @@ The ics file should be in a Google Drive folder accessible to the python script.
 
 Configure: `gcal_calendar_id` to the calendar ID of the Google Calendar you want to sync to. You can find the ID in the settings of the calendar.
 
+### configure Google Credentials
+
+Copy file googlecredentials.json-EXAMPLE to googlecredentials.json and fill in client_id anf secret from your Google API project (see quickstart guide).
+
 ## How to generate an ICS file 
 
 ### from Outlook 2019
