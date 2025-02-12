@@ -4,7 +4,8 @@
 lookbehind_days = 30                          # how many days back to sync
 lookahead_days = 30                           # how many days in the future to sync
 cleanup_calendar = True                       # remove all events from the calendar before syncing
-default_TZ = 'Europe/Berlin'                                                            # default timezone
+default_TZ = 'Europe/Berlin'                  # default timezone
+sleep_time = 0                                # sleep time between runs in minutes, 0 = no sleep (run once)
 
 # O365 connection credentials
 o365_credentials = ('xxx', 'yyy')
@@ -18,3 +19,6 @@ gcal_calendar_id = 'xxx@group.calendar.google.com'          # Google calendar to
 # ical file configuration
 cs_filename = 'Cal_File.ics'                # name of the ical file to sync
 ics_url = 'https://drive.google.com/uc?export=download&id=XXX'  # URL to download the ical file from
+
+# plan work schedule for open tasks
+plan_work = False                           # create work events for open tasks

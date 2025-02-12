@@ -10,6 +10,7 @@ import config
 from icalendar import Calendar
 import datetime
 import urllib.request
+import time
 
 def ical_walk(filename):
     # init the calendar file
@@ -85,30 +86,43 @@ if os.path.isfile('config.py') is False:
     print("If you are running this inside a Docker container, please mount the config file to /conf/config.py.")
     exit(1)
 
-period_begin = datetime.date.today() - datetime.timedelta(days=config.lookbehind_days)
-period_end = datetime.date.today() + datetime.timedelta(days=config.lookahead_days)
+# TODO remove looping when docker image is ready
+while True:
 
-if config.o365_tenant_id != 'zzz':
-    SyncFileToCloud.sync2O365.connect()
-    if config.cleanup_calendar:
-        SyncFileToCloud.sync2O365.delete_events(config.o365_calendar_name, period_begin, period_end)
-    else:
-        print("Skipping cleanup of O365 calendar.")
+    period_begin = datetime.date.today() - datetime.timedelta(days=config.lookbehind_days)
+    period_end = datetime.date.today() + datetime.timedelta(days=config.lookahead_days)
 
-if config.gcal_calendar_id != 'xxx@group.calendar.google.com':
-    SyncFileToCloud.sync2GCal.connect()
-    if config.cleanup_calendar:
-        SyncFileToCloud.sync2GCal.delete_events(config.gcal_calendar_id, period_begin, period_end)
-    else:
-        print("Skipping cleanup of GCal calendar.")
+    if config.o365_tenant_id != 'zzz':
+        SyncFileToCloud.sync2O365.connect()
+        if config.cleanup_calendar:
+            SyncFileToCloud.sync2O365.delete_events(config.o365_calendar_name, period_begin, period_end)
+        else:
+            print("Skipping cleanup of O365 calendar.")
+
+    if config.gcal_calendar_id != 'xxx@group.calendar.google.com':
+        SyncFileToCloud.sync2GCal.connect()
+        if config.cleanup_calendar:
+            SyncFileToCloud.sync2GCal.delete_events(config.gcal_calendar_id, period_begin, period_end)
+        else:
+            print("Skipping cleanup of GCal calendar.")
 
 # Download the ICS file if configured
 if config.ics_url != 'https://drive.google.com/uc?export=download&id=XXX':
     print('Downloading ICS file from ' + config.ics_url + ' to ' + config.ics_filename)
     urllib.request.urlretrieve(config.ics_url, config.ics_filename)
 
-# Process the ICS file
-print("Processing ICS file.")
-ical_walk(config.ics_filename)
+    # Process the ICS file
+    print("Processing ICS file.")
+    ical_walk(config.ics_filename)
+    print("Syncing done.")
 
-print("Syncing done.")
+    # Plan work schedule for open tasks
+    if config.plan_work:
+        print("Planning work schedule for open tasks.")
+
+    # enter sleep loop if configured
+    if config.sleep_time > 0:
+        print("Sleeping for " + str(config.sleep_time) + " minutes.")
+        time.sleep(config.sleep_time*60)
+
+    print("All done. Exiting.")
