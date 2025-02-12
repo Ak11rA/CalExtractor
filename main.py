@@ -102,9 +102,10 @@ if config.gcal_calendar_id != 'xxx@group.calendar.google.com':
     else:
         print("Skipping cleanup of GCal calendar.")
 
-# Download the ICS file
-print('Downloading ICS file from ' + config.ics_url + ' to ' + config.ics_filename)
-urllib.request.urlretrieve(config.ics_url, config.ics_filename)
+# Download the ICS file if configured
+if config.ics_url != 'https://drive.google.com/uc?export=download&id=XXX':
+    print('Downloading ICS file from ' + config.ics_url + ' to ' + config.ics_filename)
+    urllib.request.urlretrieve(config.ics_url, config.ics_filename)
 
 # Process the ICS file
 print("Processing ICS file.")

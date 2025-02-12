@@ -16,5 +16,5 @@ o365_resource='address@email.org'            # O365 user name
 gcal_calendar_id = 'xxx@group.calendar.google.com'          # Google calendar to sync to, get this from calendar settings
 
 # ical file configuration
-cs_filename = 'Cal_File.ics'                # internal name of the ical file to download and sync
+cs_filename = 'Cal_File.ics'                # name of the ical file to sync
 ics_url = 'https://drive.google.com/uc?export=download&id=XXX'  # URL to download the ical file from
