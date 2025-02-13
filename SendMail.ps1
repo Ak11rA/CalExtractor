@@ -27,9 +27,12 @@
   $OutlookConnection = New-Object -ComObject Outlook.Application
 
 # Hier wird nun für jeden Empänger eine Nachricht erstellt
-  $Empfaenger = "xy@mail.adress"
+  $Empfaenger = @{
+    'E-Mail' = "xy@mail.adress"
+    Anrede = "Herr/Frau"
+  }
   
-  
+  $EMailMessage.Recipients.Add($Empfaenger['E-Mail'])
   $EMailMessage = $OutlookConnection.CreateItem("olMailItem")
   $EMailMessage.Subject = $Subject
   $EMailMessage.Recipients.Add($Empfaenger.'E-Mail')
