@@ -55,6 +55,18 @@ running a PowerShell command like:
 
 `PS C:\Users\XXX> Invoke-WebRequest -Uri https://webmail.xyz.com/OWA/calendar/<id>/calendar.ics -OutFile OWACalFile.ics`
 
+#### Creating a Windows Task Scheduler Job
+
+Get the calendar URL by sharing the calendar in OWA and note the URL sent by email.
+
+Create url.txt:
+`https://webmail.xxx.de/OWA/calendar/xxxxxxxxxxxxxxxxxxx@xxx.de/yyyyyyyyyyyyyyyyyy/reachcalendar.ics`
+
+Schedule Powershell Task:
+`C:\Users\XXX\Documents\icsUpLoadr>schtasks /create /tn "OWA_ICS_Download" /tr "powershell -NoProfile -Command \"Invoke-WebRequest (Get-Content 'C:\Users\XXX\Documents\icsUpLoadr\url.txt') -OutFile 'C:\Users\XXX\Documents\icsUpLoadr\ITZOWAJan.ics'\"" /sc daily /st 07:00`
+
+`ERFOLGREICH: Die geplante Aufgabe "OWA_ICS_Download" wurde erfolgreich erstellt.`
+
 After that, you could send this file per EMail with a command like:
 
 `PS C:\Users\XXX> send-mailmessage -to <EMailAdresse> -subject <Betreff> -from <XXX-Mail-Addresse> -smtpserver mailrelay.xxx.de`
